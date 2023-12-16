@@ -2,13 +2,11 @@ from functools import reduce
 
 
 data = [
-    [(y, x, s) for x, s in enumerate(line.strip()) if s != "." and not s.isdigit()] for y, line in enumerate(open("3").readlines())
+    line.strip() for line in open("3").readlines()
 ]
 
 
 
-print(data)
-exit()
 symbols = []
 gears = {}
 
