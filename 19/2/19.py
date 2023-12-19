@@ -48,67 +48,109 @@ def find_paths(rule, path):
 
 find_paths("in", [])
 
-# print(paths)
 
-parts = []
+def walk_rules(rule, part):
+    if rule == "A":
+        print(part)
 
-for part in inp[1]:
-    content = {}
-    part = part.replace("{", "").replace("}", "").split(",")
-    for p in part:
-        p = p.strip().split("=")
-        content[p[0]] = [0, int(p[1]), int(p[1])]
-    parts.append(content)
+        total = 1
+        for k in part:
+            total *= part[k][1] - (part[k][0])
+        return total
+    if rule == "R":
+        return 0
 
-new_parts = []
-for part in parts:
-    for path in paths:
+    new_part_inverse = {}
+    for k in part:
+        new_part_inverse[k] = [part[k][0], part[k][1]]
+
+    total_all = 0
+    cur_rules = rules[rule]
+    for rule in cur_rules[0]:
         new_part = {}
         for k in part:
-            new_part[k] = [1, part[k][1], part[k][2]]
-        for rule in path:
-            if rule[1] == "<":
-                new_part[rule[0]][0] += rule[2]
-            else:
-                new_part[rule[0]][1] = rule[2] -1
+            new_part[k] = [part[k][0], part[k][1]]
+        if rule[0][1] == ">":
+            new_part[rule[0][0]][0] = rule[0][2]
+            new_part_inverse[rule[0][0]][1] = rule[0][2]
+        else:
+            new_part[rule[0][0]][1] = min(new_part[rule[0][0]][1], rule[0][2])
+            new_part_inverse[rule[0][0]][0] = max(
+                new_part_inverse[rule[0][0]][0], rule[0][2]
+            )
+        total_all += walk_rules(rule[1], new_part)
 
-        new_parts.append(new_part)
+    total_all += walk_rules(cur_rules[1], new_part_inverse)
 
-
-# Remove parts where one element is 0
-
-
-total = 0
-for part in new_parts:
-    print(part)
-    part_total = 1
-    for k in part:
-        # Find range, min of 0 and 2
-        # max of 1 and 2
-        min_val = min(part[k][0], part[k][1])-1
-        max_val = min(part[k][2], part[k][1])
-
-        # set idx 2 to the number of possible values
-        part[k][2] = max(0, max_val - min_val)
-    for k in part:
-        part_total *= part[k][2]
-
-    total += part_total
+    return total_all
 
 
-new_parts = [x for x in new_parts if not any([x[k][0] > x[k][1] for k in x])]
-# print(new_parts)
-# # Extract the k[2] values
+print(
+    walk_rules("in", {"x": [0, 4000], "m": [0, 4000], "a": [0, 4000], "s": [0, 4000]})
+)
 
-only = []
-for part in new_parts:
-    only.append([x[2] for x in part.values()])
 
-ttolt = 0
-for part in only:
-    total = 1
-    for p in part:
-        total *= p
-    ttolt += total
+# # print(paths)
 
-print(ttolt)
+# parts = []
+
+# for part in inp[1]:
+#     content = {}
+#     part = part.replace("{", "").replace("}", "").split(",")
+#     for p in part:
+#         p = p.strip().split("=")
+#         content[p[0]] = [0, int(p[1]), int(p[1])]
+#     parts.append(content)
+
+# new_parts = []
+# for part in parts:
+#     for path in paths:
+#         new_part = {}
+#         for k in part:
+#             new_part[k] = [1, part[k][1], part[k][2]]
+#         for rule in path:
+#             if rule[1] == "<":
+#                 new_part[rule[0]][0] += rule[2]
+#             else:
+#                 new_part[rule[0]][1] = rule[2] -1
+
+#         new_parts.append(new_part)
+
+
+# # Remove parts where one element is 0
+
+
+# total = 0
+# for part in new_parts:
+#     print(part)
+#     part_total = 1
+#     for k in part:
+#         # Find range, min of 0 and 2
+#         # max of 1 and 2
+#         min_val = min(part[k][0], part[k][1])-1
+#         max_val = min(part[k][2], part[k][1])
+
+#         # set idx 2 to the number of possible values
+#         part[k][2] = max(0, max_val - min_val)
+#     for k in part:
+#         part_total *= part[k][2]
+
+#     total += part_total
+
+
+# new_parts = [x for x in new_parts if not any([x[k][0] > x[k][1] for k in x])]
+# # print(new_parts)
+# # # Extract the k[2] values
+
+# only = []
+# for part in new_parts:
+#     only.append([x[2] for x in part.values()])
+
+# ttolt = 0
+# for part in only:
+#     total = 1
+#     for p in part:
+#         total *= p
+#     ttolt += total
+
+# print(ttolt)
