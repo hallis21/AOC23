@@ -70,7 +70,7 @@ for part in parts:
             if rule[1] == "<":
                 new_part[rule[0]][0] += rule[2]
             else:
-                new_part[rule[0]][1] = rule[2]
+                new_part[rule[0]][1] = rule[2] -1
 
         new_parts.append(new_part)
 
@@ -80,16 +80,16 @@ for part in parts:
 
 total = 0
 for part in new_parts:
+    print(part)
     part_total = 1
     for k in part:
         # Find range, min of 0 and 2
         # max of 1 and 2
-        min_val = min(part[k][0], part[k][1])
+        min_val = min(part[k][0], part[k][1])-1
         max_val = min(part[k][2], part[k][1])
 
         # set idx 2 to the number of possible values
         part[k][2] = max(0, max_val - min_val)
-
     for k in part:
         part_total *= part[k][2]
 
@@ -109,7 +109,6 @@ for part in only:
     total = 1
     for p in part:
         total *= p
-        print(total)
     ttolt += total
 
 print(ttolt)
