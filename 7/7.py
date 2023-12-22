@@ -44,7 +44,7 @@ while True:
         if all([x != 0 for x in rs]):
             r =[x for x in rs]
             # Print the product of the rounds
-            print(reduce(lambda x, y: x * y, r)*len(instructions))
+            print(r, len(instructions))
             break
             
     
