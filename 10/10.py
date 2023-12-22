@@ -141,6 +141,76 @@ for i, line in enumerate(new_m_copy):
 start = (0, 0)
 
 
+<<<<<<< HEAD
+def check_coord(x, y, i):
+
+    # If we are out of bounds
+    if x < 0 or y < 0 or y >= len(new_m) or x >= len(new_m[y]):
+        return False
+    # If one of the pipes return
+    if new_m[y][x] in ["|", "-", "L", "J", "F", "7", "S"]:
+        return
+    # Set to 0
+    new_m[y][x] = "0"
+
+    neigboorss = [(x, y - 1), (x, y + 1), (x + 1, y), (x - 1, y)]
+    for n in neigboorss:
+        # Check if we are out of bounds
+        if n[0] < 0 or n[1] < 0 or n[1] >= len(new_m) or n[0] >= len(new_m[n[1]]):
+            continue
+        if new_m[n[1]][n[0]] == "0":
+            continue
+
+        check_coord(n[0], n[1],i + 1)
+
+
+import sys
+
+sys.setrecursionlimit(1500000)
+# print(sys.getrecursionlimit())
+
+check_coord(0, 0, 0)
+
+
+# from collections import deque
+
+# checked = [[False for _ in range(len(new_m[0]))] for _ in range(len(new_m))]
+# def check_coord(x, y):
+#     queue = deque([(x, y)])
+
+#     i = 0
+#     while queue:
+#         i += 1
+        
+#         x, y = queue.popleft()
+
+#         # If we are out of bounds
+#         if x < 0 or y < 0 or y >= len(new_m) or x >= len(new_m[y]):
+#             continue
+#         # If one of the pipes return
+#         if new_m[y][x] in ["|", "-", "L", "J", "F", "7", "S"]:
+#             continue
+
+
+#         if checked[y][x]:
+#             continue
+#         checked[y][x] = True
+#         # Set to 0
+#         new_m[y][x] = "0"
+
+#         neigboorss = [(x, y - 1), (x, y + 1), (x + 1, y), (x - 1, y)]
+#         for n in neigboorss:
+#             # Check if we are out of bounds
+#             if n[0] < 0 or n[1] < 0 or n[1] >= len(new_m) or n[0] >= len(new_m[n[1]]):
+#                 continue
+#             if new_m[n[1]][n[0]] == "0":
+#                 continue
+
+#             queue.append(n)
+
+
+# check_coord(0, 0)
+=======
 # def check_coord(x, y, i):
 #     if i > 100:
 #         return
@@ -210,6 +280,7 @@ def check_coord(x, y):
 
 
 check_coord(0, 0)
+>>>>>>> c7596288908ff78de9995320364bf9a536290157
 
 
 # [print(x) for x in new_m]
