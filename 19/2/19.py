@@ -45,8 +45,8 @@ def find_paths(rule, path):
 
     find_paths(cur_rule[1], path + rules_used)
 
-
-find_paths("in", [])
+# print(rules)
+# find_paths("in", [])
 
 
 def walk_rules(rule, part):
