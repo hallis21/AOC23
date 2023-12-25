@@ -25,7 +25,8 @@ for line in inp[1].split("\n"):
 
 buckets["in"].extend(parts)
 
-
+print(parts)
+exit()
 while len(buckets["A"]) + len(buckets["R"]) < len(parts):
     # Go through the buckets and run the rules
     pass

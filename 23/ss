@@ -1,0 +1,84 @@
+
+
+
+exit()
+for intersection in intersections:
+    # BFS
+    # (coord, visited)
+
+    queue = [(intersection, [])]
+    # # There should be atleast 2 paths from the intersection
+    # for dir in dirs:
+    #     next_cord = (intersection[0] + dir[0], intersection[1] + dir[1])
+    #     if next_cord[0] < w and next_cord[0] >= 0 and next_cord[1] < h and next_cord[1] >= 0:
+    #         if lines[next_cord[1]][next_cord[0]] == ".":
+    #             queue.append((next_cord, [intersection]))
+
+
+
+    paths = []
+    while len(queue) > 0:
+        # if len(queue) % 1000 == 0:
+        #     print(len(queue))
+        next = queue.pop(0)
+        cord = next[0]
+
+        if cord in next[1]:
+            continue
+        if cord in intersections and cord != intersection:
+            paths.append((next[0], next[1] + [cord] ))
+            continue
+
+        n = 0
+        for dir in dirs:
+            next_cord = (cord[0] + dir[0], cord[1] + dir[1])
+            
+        
+            if next_cord[0] < w and next_cord[0] >= 0 and next_cord[1] < h and next_cord[1] >= 0:
+                if lines[next_cord[1]][next_cord[0]] == ".":
+                    visited = next[1] + [cord]
+                    queue.append((next_cord, visited))
+                    n += 1
+        
+    network[intersection] = defaultdict(lambda: 0)
+    for path in paths:
+        dest = path[1][-1]
+        length = len(path[1])
+        network[intersection][dest] = max(len(path[1]), network[intersection][dest])
+    if len(paths) > 4:
+        exit()
+
+
+queue = [(start, [])]
+
+lengths = []
+lenss= []
+
+i = 0
+while len(queue) > 0:
+    i+=1
+    next = queue.pop(0)
+    # if len(queue) % 1000 == 0:
+    # print(i)
+    
+    if next[0] == end:
+        lengths.append(next[1]+[next[0]])
+        continue
+
+    for n in network[next[0]]:
+        if n in next[1]:
+            continue
+        
+        queue.append((n, next[1] + [next[0]]))
+
+ii = i
+max_len = 0
+for l in lengths:
+    total = 0
+    for i in range(len(l) - 1):
+        total += network[l[i]][l[i+1]]
+    total -= len(l[1:-1])
+    if total > max_len:
+        max_len = total-1
+
+print(max_len, len(network), ii)
